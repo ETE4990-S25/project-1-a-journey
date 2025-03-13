@@ -1,3 +1,4 @@
+# Health_Afflictions.py
 class Items(object):
     def __init__(self, name, max_health, health):
         self.name = name
@@ -6,7 +7,7 @@ class Items(object):
 
 class Healing(Items):
     def __init__(self, name, max_health, health):
-        super().__init__(self, name, max_health, health)
+        super().__init__(name, max_health, health)  # Corrected: No extra 'self'
 
     def heal_player(self, healing):
         if self.health < self.max_health:
@@ -17,11 +18,14 @@ class Healing(Items):
 
 class Poison(Items):
     def __init__(self, name, max_health, health):
-        super().__init__(self, name, max_health, health)
+        super().__init__(name, max_health, health)  # Corrected: No extra 'self'
 
-    def do_damage(self, name, max_health, health):
-        self.health = max(self.health - Poison)
+    def do_damage(self, damage):  # Fixed: Removed unused parameters 'name, max_health, health'
+        self.health = max(self.health - damage, 0)  # Fixed: 'damage' instead of 'Poison'
+        print(f"{self.name} took {damage} poison damage. Current health: {self.health}/{self.max_health}")
 
-player = Healing("Hero", 100, 50)
-player.heal_player(15)  
-player.heal_player(25)  
+# Test code (optional, remove if not needed in the file)
+if __name__ == "__main__":
+    player = Healing("Hero", 100, 50)
+    player.heal_player(15)
+    player.heal_player(25) 
