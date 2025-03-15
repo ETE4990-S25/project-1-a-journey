@@ -1,22 +1,62 @@
-class BlazeArrow:
-    def __init__(self, name, length, damage):
+class Item:
+    def __init__(self, name, description):
         self.name = name
-        self.length = length
+        self.description = description
+
+    def __str__(self):
+        return f"{self.name}: {self.description}"
+
+class Weapon(Item):
+    def __init__(self, name, damage):
+        if damage < 0:
+            raise ValueError("Damage value must be non-negative.")
+        super().__init__(name, f"A {name} dealing {damage} damage")
         self.damage = damage
 
-    def do_damage(self, target):
-        target.health = max(target.health - self.damage, 0)  # Prevents negative health
-        print(f"{target.name} took {self.damage} damage. Remaining health: {target.health}")
+class Potion(Item):
+    def __init__(self, name, heal_amount):
+        if heal_amount < 0:
+            raise ValueError("Heal amount must be non-negative.")
+        super().__init__(name, f"A {name} that heals {heal_amount} HP")
+        self.heal_amount = heal_amount
 
-# Example of a target class
-class Target:
-    def __init__(self, name, health):
+    def use(self, character):
+        current_health = character.stats.get("health", 0)
+        max_health = character.stats.get("max_health", 0)
+
+        if current_health < max_health:
+            healed = min(self.heal_amount, max_health - current_health)
+            character.stats["health"] += healed
+            print(f"{character.name} used {self.name}, healing {healed} HP!")
+            return True
+        print(f"{character.name} is already at full health!")
+        return False
+
+class Character:
+    def __init__(self, name, health, max_health):
         self.name = name
-        self.health = health
+        self.stats = {"health": health, "max_health": max_health}
+        self.inventory = []
 
-# Example usage
-enemy = Target("Goblin", 50)
-arrow = BlazeArrow("Flaming Arrow", 1.5, 20)
+    def add_item(self, item):
+        self.inventory.append(item)
+        print(f"{self.name} acquired {item.name}!")
 
-arrow.do_damage(enemy)  # Goblin took 20 damage. Remaining health: 30
-arrow.do_damage(enemy)  # Goblin took 20 damage. Remaining health: 10
+    def show_inventory(self):
+        if not self.inventory:
+            print(f"{self.name}'s inventory is empty.")
+        else:
+            print(f"{self.name}'s Inventory:")
+            for item in self.inventory:
+                print(f"- {item}")
+
+# Example Usage
+player = Character("Hero", 50, 100)
+sword = Weapon("Sword", 15)
+healing_potion = Potion("Healing Potion", 30)
+
+player.add_item(sword)
+player.add_item(healing_potion)
+player.show_inventory()
+healing_potion.use(player)
+player.show_inventory()
