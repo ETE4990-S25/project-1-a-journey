@@ -1,0 +1,33 @@
+class Item:
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+
+    def __str__(self):
+        return f"{self.name}: {self.description}"
+
+class Weapon(Item):
+    def __init__(self, name, damage):
+        if damage < 0:
+            raise ValueError("Damage value must be non-negative.")
+        super().__init__(name, f"A {name} dealing {damage} damage")
+        self.damage = damage
+
+class Potion(Item):
+    def __init__(self, name, heal_amount):
+        if heal_amount < 0:
+            raise ValueError("Heal amount must be non-negative.")
+        super().__init__(name, f"A {name} that heals {heal_amount} HP")
+        self.heal_amount = heal_amount
+
+    def use(self, character):
+        current_health = character.stats.get("health", 0)
+        max_health = character.stats.get("max_health", 0)
+
+        if current_health < max_health:
+            healed = min(self.heal_amount, max_health - current_health)
+            character.stats["health"] += healed
+            print(f"{character.name} used {self.name}, healing {healed} HP!")
+            return True
+        print(f"{character.name} is already at full health!")
+        return False
