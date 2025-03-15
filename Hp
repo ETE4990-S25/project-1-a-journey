@@ -23,6 +23,15 @@ class Poison(Items):
         self.health = max(self.health - damage, 0)
         print(f"{self.name} took {damage} damage. Current health: {self.health}/{self.max_health}")
 
+class ShieldPotion(Items):
+    def __init__(self, name, max_health, health, shield):
+        super().__init__(name, max_health, health)
+        self.shield = shield
+
+    def apply_shield(self, shield_amount):
+        self.shield += shield_amount
+        print(f"{self.name} gained {shield_amount} shield. Current shield: {self.shield}")
+
 # Testing the Healing class
 player = Healing("Hero", 100, 50)
 player.heal_player(15)  
