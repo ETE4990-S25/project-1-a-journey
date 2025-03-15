@@ -40,6 +40,15 @@ class BlazeArrow:
     def do_damage(self, target):
         target.health = max(target.health - self.damage, 0)  # Prevents negative health
         print(f"{target.name} took {self.damage} damage. Remaining health: {target.health}")
+class FrozenDagger:
+    def __init__(self, name, damage, freeze_duration):
+        self.name = name
+        self.damage = damage
+        self.freeze_duration = freeze_duration
+
+    def do_damage(self, target):
+        target.health = max(target.health - self.damage, 0)
+        print(f"{target.name} took {self.damage} damage and is frozen for {self.freeze_duration} seconds. Remaining health: {target.health}")
 
 # Example of a target class
 class Target:
@@ -53,3 +62,9 @@ arrow = BlazeArrow("Flaming Arrow", 1.5, 20)
 
 arrow.do_damage(enemy)  # Goblin took 20 damage. Remaining health: 30
 arrow.do_damage(enemy)  # Goblin took 20 damage. Remaining health: 10
+
+
+# Testing the FrozenDagger class
+dagger = FrozenDagger("Ice Fang", 15, 5)
+dagger.do_damage(enemy)
+
