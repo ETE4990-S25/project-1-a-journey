@@ -1,0 +1,31 @@
+class Items:
+    def __init__(self, name, max_health, health):
+        self.name = name
+        self.max_health = max_health
+        self.health = health
+
+class Healing(Items):
+    def __init__(self, name, max_health, health):
+        super().__init__(name, max_health, health)
+
+    def heal_player(self, healing):
+        if self.health < self.max_health:
+            self.health = min(self.health + healing, self.max_health)
+            print(f"{self.name} healed for {healing} HP. Current health: {self.health}/{self.max_health}")
+        else:
+            print(f"{self.name} is already at full health!")
+
+class Poison(Items):
+    def __init__(self, name, max_health, health):
+        super().__init__(name, max_health, health)
+
+    def do_damage(self, damage):
+        self.health = max(self.health - damage, 0)
+        print(f"{self.name} took {damage} damage. Current health: {self.health}/{self.max_health}")
+
+# Testing the Healing class
+player = Healing("Hero", 100, 50)
+player.heal_player(15)  
+player.heal_player(25)  
+
+# Testing the Poison cl
