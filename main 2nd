@@ -291,4 +291,153 @@ player = Character("John", "Knight")
 enemy = Enemy("Giant Ogre", 80, 20)
 combat(player, enemy)
 save_game(player)
+import json
+import random
 
+# Character setup
+class Character:
+    def __init__(self, name, char_class):
+        self.name = name
+        self.char_class = char_class
+        self.health = 100
+        self.strength = 80 if char_class == "Knight" else 60
+        self.inventory = ["Rusty Sword", "Health Potion"]
+        self.level = 1
+        self.xp = 0
+        self.ability_cooldowns = {}
+        self.special_abilities = self.get_special_abilities()
+
+    def get_special_abilities(self):
+        abilities = {
+            "Knight": {"Shield Block": 3, "Power Strike": 2},
+            "Mage": {"Fireball": 3, "Magic Shield": 4},
+            "Assassin": {"Backstab": 2, "Smoke Bomb": 5},
+            "Archer": {"Piercing Shot": 2, "Evasive Roll": 3}
+        }
+        return abilities.get(self.char_class, {})
+
+    def use_special_ability(self, ability, enemy):
+        if ability in self.ability_cooldowns and self.ability_cooldowns[ability] > 0:
+            print(f"{ability} is on cooldown for {self.ability_cooldowns[ability]} more turns.")
+            return
+
+        effects = {
+            "Shield Block": "Reduces next attack damage by 50%.",
+            "Power Strike": lambda: enemy.take_damage(self.strength * 1.5, "Power Strike"),
+            "Fireball": lambda: enemy.take_damage(50, "Fireball"),
+            "Magic Shield": "Negates the next attack.",
+            "Backstab": lambda: enemy.take_damage(self.strength * 2, "Backstab"),
+            "Smoke Bomb": "Escapes the battle safely.",
+            "Piercing Shot": lambda: enemy.take_damage(45, "Piercing Shot"),
+            "Evasive Roll": "Avoids the next attack."
+        }
+
+        if callable(effects.get(ability)):
+            effects[ability]()
+        else:
+            print(f"{self.name} uses {ability}! {effects[ability]}")
+        
+        self.ability_cooldowns[ability] = self.special_abilities[ability]
+
+    def attack(self, enemy):
+        damage = random.randint(self.strength // 2, self.strength)
+        if random.random() < 0.2:
+            damage *= 1.5
+            print(f"Critical hit! {self.name} deals {int(damage)} damage!")
+        else:
+            print(f"{self.name} swings their sword, dealing {int(damage)} damage!")
+        enemy.take_damage(damage)
+
+    def take_damage(self, damage, source="Attack"):
+        self.health -= int(damage)
+        print(f"{self.name} took {int(damage)} damage from {source}!")
+
+    def level_up(self):
+        if self.xp >= self.level * 100:
+            self.level += 1
+            self.health += 10
+            self.strength += 5
+            self.xp = 0
+            print(f"{self.name} leveled up! Health and Strength increased!")
+
+    def use_item(self, item):
+        if item in self.inventory:
+            if item == "Health Potion":
+                self.health += 30
+                print(f"{self.name} used a Health Potion and recovered 30 HP!")
+            self.inventory.remove(item)
+        else:
+            print("Item not found in inventory!")
+
+    def reduce_cooldowns(self):
+        for ability in self.ability_cooldowns:
+            if self.ability_cooldowns[ability] > 0:
+                self.ability_cooldowns[ability] -= 1
+
+# Enemy setup
+class Enemy:
+    def __init__(self, name, health, strength):
+        self.name = name
+        self.health = health
+        self.strength = strength
+
+    def attack(self, player):
+        damage = random.randint(self.strength // 2, self.strength)
+        print(f"{self.name} strikes, dealing {damage} damage!")
+        player.take_damage(damage)
+
+    def take_damage(self, damage, source="Attack"):
+        self.health -= int(damage)
+        print(f"{self.name} took {int(damage)} damage from {source}!")
+
+# Game functions
+def save_game(player):
+    with open("save.json", "w") as f:
+        json.dump(player.__dict__, f)
+    print("Game saved!")
+
+def load_game():
+    try:
+        with open("save.json", "r") as f:
+            data = json.load(f)
+            player = Character(data["name"], data["char_class"])
+            player.__dict__.update(data)
+            return player
+    except FileNotFoundError:
+        print("No saved game found.")
+        return None
+
+def combat(player, enemy):
+    while player.health > 0 and enemy.health > 0:
+        print(f"\n{player.name} HP: {player.health}, {enemy.name} HP: {enemy.health}")
+        action = input("1. Attack  2. Use Item  3. Use Special Ability  4. Flee\n")
+        if action == "1":
+            player.attack(enemy)
+            if enemy.health > 0:
+                enemy.attack(player)
+        elif action == "2":
+            player.use_item("Health Potion")
+        elif action == "3":
+            print("Choose an ability:")
+            abilities = list(player.special_abilities.keys())
+            for i, ability in enumerate(abilities, 1):
+                print(f"{i}. {ability}")
+            choice = int(input()) - 1
+            if 0 <= choice < len(abilities):
+                player.use_special_ability(abilities[choice], enemy)
+        elif action == "4":
+            print("You fled from battle!")
+            return
+        player.reduce_cooldowns()
+    if player.health > 0:
+        print(f"You vanquished the {enemy.name}!")
+        player.xp += 50
+        player.level_up()
+    else:
+        print("You have been defeated...")
+
+# Game start
+player = Character("John", "Knight")
+enemy = Enemy("Giant Ogre", 80, 20)
+combat(player, enemy)
+save_game(player)
