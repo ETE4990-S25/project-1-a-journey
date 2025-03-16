@@ -1,3 +1,175 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Off to a land, filled with strife. All alone, but one with life. You were told to become a savior,\n",
+      "and yet no one will know your full story.\n",
+      "You have chosen a treacherous path... Mother will be so proud of you...\n",
+      "\n",
+      "Hello son, you here to make a Character Creation?\n",
+      "Hello John, you sure are a brave one.\n",
+      "Choose your class:\n",
+      "Assassin - Stealthy and quick\n",  
+      "Archer - Fires arrows with nice and clean shots\n",
+      "Knight - Strong and durable\n",
+      "Mage - Wields powerful magic, fragile\n",
+      "Leaving the homestead and starting a journey. Grandpa didn't get there in time, running out of the shower naked.\n",
+      "You make your moves, comtemplating while becoming vigalant for every possiblility, at least you think.\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 100/100\n",
+      "Strength: 80\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "The journey begins...\n",
+      "\n",
+      "--- Encounter 1/5 ---\n",
+      "\n",
+      "Exploration of a lifetime\n",
+      "You tread deeper into the treacherous land...\n",
+      "The path is eerily silent...\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 100/100\n",
+      "Strength: 80\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "What next?\n",
+      "1. Continue Journey\n",
+      "2. Manage Inventory\n",
+      "3. Save Game\n",
+      "4. Rest (End Game)\n",
+      "\n",
+      "--- Encounter 1/5 ---\n",
+      "\n",
+      "Exploration of a lifetime\n",
+      "You tread deeper into the treacherous land...\n",
+      "The path is eerily silent...\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 100/100\n",
+      "Strength: 80\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "What next?\n",
+      "1. Continue Journey\n",
+      "2. Manage Inventory\n",
+      "3. Save Game\n",
+      "4. Rest (End Game)\n",
+      "\n",
+      "--- Encounter 1/5 ---\n",
+      "\n",
+      "Exploration of a lifetime\n",
+      "You tread deeper into the treacherous land...\n",
+      "\n",
+      "Begin Your Combat Moves!\n",
+      "A The Giant Ogre blocks your path!\n",
+      "\n",
+      "The Giant Ogre HP: 80\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 100/100\n",
+      "Strength: 80\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "John swings their sword, dealing 40 damage!\n",
+      "The Giant Ogre strikes, dealing 20 damage!\n",
+      "\n",
+      "The Giant Ogre HP: 40\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 80/100\n",
+      "Strength: 80\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+#character Class
+class character 
+ def __init__(self, name, char_class):
+        self.name = name
+        self.char_class = char_class
+        self.health = 100
+        self.inventory = ["Rusty Sword", "Health Potion"]
+        self.strength = self.assign_strength()
+
+    def assign_strength(self):
+        class_stats = {
+            "Mage": 50,
+            "Assassin": 60,
+            "Knight": 80,
+            "Archer": 70
+        }
+        return class_stats.get(self.char_class, 50)
+
+    def display_stats(self):
+        print(f"\nCharacter: {self.name} ({self.char_class})")
+        print(f"Health: {self.health}/100")
+        print(f"Strength: {self.strength}")
+        print(f"Inventory: {', '.join(self.inventory)}\n")
+
+# Encounter Class
+class Encounter:
+    def __init__(self, number):
+        self.number = number
+        self.description = [
+            "You tread deeper into the treacherous land...",
+            "The path is eerily silent...",
+            "A shadow moves in the distance...",
+            "You hear a faint growl nearby...",
+            "You discover a hidden chest!"
+        ]
+
+    def start(self):
+        print(f"\n--- Encounter {self.number}/5 ---\n")
+        print(random.choice(self.description))
+
+# Game Logic
+def character_creation():
+    name = input("Enter your character's name: ")
+    print("\nChoose your class:\nMage - Wields powerful magic, fragile\nAssassin - Stealthy and quick\nKnight - Strong and durable\nArcher - Fires arrows with precision\n")
+    
+    while True:
+        char_class = input("Enter class: ").capitalize()
+        if char_class in ["Mage", "Assassin", "Knight", "Archer"]:
+            break
+        print("Invalid class. Choose from Mage, Assassin, Knight, or Archer.")
+
+    return Character(name, char_class)
+
+def start_game():
+    print("\nOff to a land, filled with strife. All alone, but one with life...")
+    print("You were told to become a savior, and yet no one will know your full story.")
+    print("You have chosen a treacherous path... Mother will be so proud of you...\n")
+
+    player = character_creation()
+    print(f"\nHello {player.name}, you sure are a brave one.\n")
+    
+    player.display_stats()
+
+    print("\nThe journey begins...\n")
+    
+    for i in range(1, 6):
+        encounter = Encounter(i)
+        encounter.start()
+
+if __name__ == "__main__":
+    start_game()
 class Item:
     def __init__(self, name, description):
         self.name = name
