@@ -55,10 +55,15 @@ class Target:
     def __init__(self, name, health):
         self.name = name
         self.health = health
+# Silver Arrow Class
+class SilverArrow(Ammunition):
+    def __init__(self):
+        super().__init__("Silver Arrow", damage_boost=10)
 
 # Example usage
 enemy = Target("Goblin", 50)
 arrow = BlazeArrow("Flaming Arrow", 1.5, 20)
+arrow = SilverArrow("Silver Arrow", 10)
 
 arrow.do_damage(enemy)  # Goblin took 20 damage. Remaining health: 30
 arrow.do_damage(enemy)  # Goblin took 20 damage. Remaining health: 10
