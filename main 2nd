@@ -60,3 +60,235 @@ player.add_item(healing_potion)
 player.show_inventory()
 healing_potion.use(player)
 player.show_inventory()
+import json
+import random
+
+# Character setup
+class Character:
+    def __init__(self, name, char_class):
+        self.name = name
+        self.char_class = char_class
+        self.health = 100
+        self.strength = 80 if char_class == "Knight" else 60
+        self.inventory = ["Rusty Sword", "Health Potion"]
+        self.level = 1
+        self.xp = 0
+
+    def attack(self, enemy):
+        damage = random.randint(self.strength // 2, self.strength)
+        if random.random() < 0.2:  # 20% chance for a critical hit
+            damage *= 1.5
+            print(f"Critical hit! {self.name} deals {int(damage)} damage!")
+        else:
+            print(f"{self.name} swings their sword, dealing {int(damage)} damage!")
+        enemy.health -= int(damage)
+
+    def level_up(self):
+        if self.xp >= 100:
+            self.level += 1
+            self.health += 10
+            self.strength += 5
+            self.xp = 0
+            print(f"{self.name} leveled up! Health and Strength increased!")
+
+    def use_item(self, item):
+        if item == "Health Potion" and item in self.inventory:
+            self.health += 30
+            print(f"{self.name} used a Health Potion and recovered 30 HP!")
+            self.inventory.remove(item)
+        else:
+            print("Invalid item or not in inventory!")
+
+# Enemy setup
+class Enemy:
+    def __init__(self, name, health, strength):
+        self.name = name
+        self.health = health
+        self.strength = strength
+
+    def attack(self, player):
+        damage = random.randint(self.strength // 2, self.strength)
+        print(f"{self.name} strikes, dealing {damage} damage!")
+        player.health -= damage
+
+# Game functions
+def save_game(player):
+    with open("save.json", "w") as f:
+        json.dump(player.__dict__, f)
+    print("Game saved!")
+
+def load_game():
+    try:
+        with open("save.json", "r") as f:
+            data = json.load(f)
+            player = Character(data["name"], data["char_class"])
+            player.__dict__.update(data)
+            return player
+    except FileNotFoundError:
+        print("No saved game found.")
+        return None
+
+def combat(player, enemy):
+    while player.health > 0 and enemy.health > 0:
+        print(f"\n{player.name} HP: {player.health}, {enemy.name} HP: {enemy.health}")
+        action = input("1. Attack  2. Use Item  3. Flee\n")
+        if action == "1":
+            player.attack(enemy)
+            if enemy.health > 0:
+                enemy.attack(player)
+        elif action == "2":
+            player.use_item("Health Potion")
+        elif action == "3":
+            print("You fled from battle!")
+            return
+    if player.health > 0:
+        print(f"You vanquished the {enemy.name}!")
+        player.xp += 50
+        player.level_up()
+    else:
+        print("You have been defeated...")
+
+# Game start
+player = Character("John", "Knight")
+enemy = Enemy("Giant Ogre", 80, 20)
+combat(player, enemy)
+save_game(player)
+import json
+import random
+
+# Character setup
+class Character:
+    def __init__(self, name, char_class):
+        self.name = name
+        self.char_class = char_class
+        self.health = 100
+        self.strength = 80 if char_class == "Knight" else 60
+        self.inventory = ["Rusty Sword", "Health Potion"]
+        self.level = 1
+        self.xp = 0
+        self.special_abilities = self.get_special_abilities()
+
+    def get_special_abilities(self):
+        abilities = {
+            "Knight": ["Shield Block", "Power Strike"],
+            "Mage": ["Fireball", "Magic Shield"],
+            "Assassin": ["Backstab", "Smoke Bomb"],
+            "Archer": ["Piercing Shot", "Evasive Roll"]
+        }
+        return abilities.get(self.char_class, [])
+
+    def use_special_ability(self, ability, enemy):
+        if ability == "Shield Block":
+            print(f"{self.name} uses Shield Block! Reduces next attack damage by 50%.")
+        elif ability == "Power Strike":
+            damage = self.strength * 1.5
+            print(f"{self.name} uses Power Strike! Deals {int(damage)} damage!")
+            enemy.health -= int(damage)
+        elif ability == "Fireball":
+            damage = 50
+            print(f"{self.name} casts Fireball! Deals {damage} damage!")
+            enemy.health -= damage
+        elif ability == "Magic Shield":
+            print(f"{self.name} casts Magic Shield! Negates the next attack.")
+        elif ability == "Backstab":
+            damage = self.strength * 2
+            print(f"{self.name} performs Backstab! Deals {int(damage)} damage!")
+            enemy.health -= int(damage)
+        elif ability == "Smoke Bomb":
+            print(f"{self.name} uses Smoke Bomb! Escapes the battle safely.")
+        elif ability == "Piercing Shot":
+            damage = 45
+            print(f"{self.name} fires a Piercing Shot! Deals {damage} damage!")
+            enemy.health -= damage
+        elif ability == "Evasive Roll":
+            print(f"{self.name} performs Evasive Roll! Avoids the next attack.")
+        else:
+            print("Invalid ability!")
+
+    def attack(self, enemy):
+        damage = random.randint(self.strength // 2, self.strength)
+        if random.random() < 0.2:  # 20% chance for a critical hit
+            damage *= 1.5
+            print(f"Critical hit! {self.name} deals {int(damage)} damage!")
+        else:
+            print(f"{self.name} swings their sword, dealing {int(damage)} damage!")
+        enemy.health -= int(damage)
+
+    def level_up(self):
+        if self.xp >= 100:
+            self.level += 1
+            self.health += 10
+            self.strength += 5
+            self.xp = 0
+            print(f"{self.name} leveled up! Health and Strength increased!")
+
+    def use_item(self, item):
+        if item == "Health Potion" and item in self.inventory:
+            self.health += 30
+            print(f"{self.name} used a Health Potion and recovered 30 HP!")
+            self.inventory.remove(item)
+        else:
+            print("Invalid item or not in inventory!")
+
+# Enemy setup
+class Enemy:
+    def __init__(self, name, health, strength):
+        self.name = name
+        self.health = health
+        self.strength = strength
+
+    def attack(self, player):
+        damage = random.randint(self.strength // 2, self.strength)
+        print(f"{self.name} strikes, dealing {damage} damage!")
+        player.health -= damage
+
+# Game functions
+def save_game(player):
+    with open("save.json", "w") as f:
+        json.dump(player.__dict__, f)
+    print("Game saved!")
+
+def load_game():
+    try:
+        with open("save.json", "r") as f:
+            data = json.load(f)
+            player = Character(data["name"], data["char_class"])
+            player.__dict__.update(data)
+            return player
+    except FileNotFoundError:
+        print("No saved game found.")
+        return None
+
+def combat(player, enemy):
+    while player.health > 0 and enemy.health > 0:
+        print(f"\n{player.name} HP: {player.health}, {enemy.name} HP: {enemy.health}")
+        action = input("1. Attack  2. Use Item  3. Use Special Ability  4. Flee\n")
+        if action == "1":
+            player.attack(enemy)
+            if enemy.health > 0:
+                enemy.attack(player)
+        elif action == "2":
+            player.use_item("Health Potion")
+        elif action == "3":
+            print("Choose an ability:")
+            for i, ability in enumerate(player.special_abilities, 1):
+                print(f"{i}. {ability}")
+            choice = int(input()) - 1
+            if 0 <= choice < len(player.special_abilities):
+                player.use_special_ability(player.special_abilities[choice], enemy)
+        elif action == "4":
+            print("You fled from battle!")
+            return
+    if player.health > 0:
+        print(f"You vanquished the {enemy.name}!")
+        player.xp += 50
+        player.level_up()
+    else:
+        print("You have been defeated...")
+
+# Game start
+player = Character("John", "Knight")
+enemy = Enemy("Giant Ogre", 80, 20)
+combat(player, enemy)
+save_game(player)
+
