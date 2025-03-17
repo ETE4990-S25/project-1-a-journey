@@ -447,6 +447,14 @@
     "    \"Archer\": {\"health\": 80, \"max_health\": 80, \"strength\": 60}\n",
     "}\n",
     "\n",
+    "class Character(object):\n",
+    "    def __init__(self, name, class_type):\n",
+    "        if class_type not in CHARACTER_CLASSES:\n",
+    "            raise ValueError(f\"Invalid class type. Choose from {CHARACTER_CLASSES}\")\n",
+    "        self.name = name\n",
+    "        self.class_type = class_type\n",
+    "        self.stats = base_stats[class_type].copy()\n",
+    "        self.inventory = []\n",
 
 
 
@@ -593,7 +601,7 @@ class Character:
         self.char_class = char_class
         self.health = 100
         self.strength = 80 if char_class == "Knight" else 60
-        self.inventory = ["Rusty Sword", "Health Potion"]
+        self.inventory = ["Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger"]
         self.level = 1
         self.xp = 0
 
