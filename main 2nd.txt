@@ -1,0 +1,983 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Off to a land, filled with strife. All alone, but one with life. You were told to become a savior,\n",
+      "and yet no one will know your full story.\n",
+      "You have chosen a treacherous path... Mother will be so proud of you...\n",
+      "\n",
+      "Hello son, you here to make a Character Creation?\n",
+      "Hello John, you sure are a brave one.\n",
+      "Choose your class:\n",
+      "Assassin - Stealthy and quick\n",  
+      "Archer - Fires arrows with nice and clean shots\n",
+      "Knight - Strong and durable\n",
+      "Mage - Wields powerful magic, fragile\n",
+      "Leaving the homestead and starting a journey. Grandpa didn't get there in time, running out of the shower naked.\n",
+      "You make your moves, comtemplating while becoming vigalant for every possiblility, at least you think.\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 100/100\n",
+      "Strength: 80\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "The journey begins...\n",
+      "\n",
+      "--- Encounter 1/5 ---\n",
+      "\n",
+      "Exploration of a lifetime\n",
+      "You tread deeper into the treacherous land...\n",
+      "The path is eerily silent...\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 100/100\n",
+      "Strength: 80\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "What next?\n",
+      "1. Continue Journey\n",
+      "2. Manage Inventory\n",
+      "3. Save Game\n",
+      "4. Rest (End Game)\n",
+      "\n",
+      "--- Encounter 1/5 ---\n",
+      "\n",
+      "Exploration of a lifetime\n",
+      "You tread deeper into the treacherous land...\n",
+      "The path is eerily silent...\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 100/100\n",
+      "Strength: 80\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "What next?\n",
+      "1. Continue Journey\n",
+      "2. Manage Inventory\n",
+      "3. Save Game\n",
+      "4. Rest (End Game)\n",
+      "\n",
+      "--- Encounter 1/5 ---\n",
+      "\n",
+      "Exploration of a lifetime\n",
+      "You tread deeper into the treacherous land...\n",
+      "\n",
+      "Begin Your Combat Moves!\n",
+      "A The Giant Ogre blocks your path!\n",
+      "\n",
+      "The Giant Ogre HP: 80\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 100/100\n",
+      "Strength: 80\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "John swings their sword, dealing 40 damage!\n",
+      "The Giant Ogre strikes, dealing 20 damage!\n",
+      "\n",
+      "The Giant Ogre HP: 40\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 80/100\n",
+      "Strength: 80\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "John swings their sword, dealing 40 damage!\n",
+      "\n",
+      "You vanquished the The Giant Ogre!\n",
+      "\n",
+      "John has grown stronger!\n",
+      "Health and strength increased!\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 110/110\n",
+      "Strength: 85\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "What next?\n",
+      "1. Continue Journey\n",
+      "2. Manage Inventory\n",
+      "3. Save Game\n",
+      "4. Rest (End Game)\n",
+      "\n",
+      "--- Encounter 2/5 ---\n",
+      "\n",
+      "Exploration of a lifetime\n",
+      "You tread deeper into the treacherous land...\n",
+      "The path is eerily silent...\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 110/110\n",
+      "Strength: 85\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "What next?\n",
+      "1. Continue Journey\n",
+      "2. Manage Inventory\n",
+      "3. Save Game\n",
+      "4. Rest (End Game)\n",
+      "\n",
+      "--- Encounter 2/5 ---\n",
+      "\n",
+      "Exploration of a lifetime\n",
+      "You tread deeper into the treacherous land...\n",
+      "\n",
+      "Begin Your Combat Moves!\n",
+      "A The Giant Ogre blocks your path!\n",
+        "\n",
+      "--- Encounter 2/5 ---\n",
+      "\n",
+      "Exploration of a lifetime\n",
+      "You tread deeper into the treacherous land...\n",
+      "The path is eerily silent...\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 110/110\n",
+      "Strength: 85\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "What next?\n",
+      "1. Continue Journey\n",
+      "2. Manage Inventory\n",
+      "3. Save Game\n",
+      "4. Rest (End Game)\n",
+      "\n",
+      "--- Encounter 2/5 ---\n",
+      "\n",
+      "Exploration of a lifetime\n",
+      "You tread deeper into the treacherous land...\n",
+      "\n",
+      "Begin Your Combat Moves!\n",
+      "A The Giant Ogre blocks your path!\n",
+      "\n",
+      "The Giant Ogre HP: 80\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 110/110\n",
+      "Strength: 85\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "John swings their sword, dealing 42 damage!\n",
+      "The Giant Ogre strikes, dealing 20 damage!\n",
+      "\n",
+      "The Giant Ogre HP: 38\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 90/110\n",
+      "Strength: 85\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "John swings their sword, dealing 42 damage!\n",
+      "\n",
+      "You vanquished the The Giant Ogre!\n",
+      "\n",
+      "John has grown stronger!\n",
+      "Health and strength increased!\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 120/120\n",
+      "Strength: 90\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "What next?\n",
+      "1. Continue Journey\n",
+      "2. Manage Inventory\n",
+      "3. Save Game\n",
+      "4. Rest (End Game)\n",
+      "\n",
+      "--- Encounter 3/5 ---\n",
+      "\n",
+      "Exploration of a lifetime\n",
+      "You tread deeper into the treacherous land...\n",
+      "\n",
+      "Begin Your Combat Moves!\n",
+      "A Algathor the Dragon blocks your path!\n",
+      "\n",
+      "Algathor the Dragon HP: 150\n",
+      "\n",
+      "Algathor the Dragon HP: 150\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 120/120\n",
+      "Strength: 90\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "John swings their sword, dealing 45 damage!\n",
+      "Algathor the Dragon strikes, dealing 30 damage!\n",
+      "\n",
+      "Algathor the Dragon HP: 105\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 90/120\n",
+      "Strength: 90\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "John swings their sword, dealing 45 damage!\n",
+      "Algathor the Dragon strikes, dealing 30 damage!\n",
+      "\n",
+      "Algathor the Dragon HP: 60\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 60/120\n",
+      "Strength: 90\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "John swings their sword, dealing 45 damage!\n",
+      "Algathor the Dragon strikes, dealing 30 damage!\n",
+      "\n",
+      "Algathor the Dragon HP: 15\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 30/120\n",
+      "Strength: 90\n",
+      "Inventory: Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "Inventory: [Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger]\n",
+      "John used Health Potion, healing 20 HP!\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 50/120\n",
+      "Strength: 90\n",
+      "Inventory: Rusty Sword\n",
+      "Algathor the Dragon strikes, dealing 30 damage!\n",
+      "\n",
+      "Algathor the Dragon HP: 15\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 20/120\n",
+      "Strength: 90\n",
+      "Inventory: Blaze Arrow, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "John swings their sword, dealing 45 damage!\n",
+      "\n",
+      "You vanquished the Algathor the Dragon!\n",
+      "\n",
+      "John has grown stronger!\n",
+      "Health and strength increased!\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 130/130\n",
+      "Strength: 95\n",
+      "Inventory: Blaze Arrow, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "Failed to flee!\n",
+      "Algathor the Dragon strikes, dealing 30 damage!\n",
+      "\n",
+      "Algathor the Dragon HP: 150\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 100/130\n",
+      "Strength: 95\n",
+      "Inventory: Blaze Arrow, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "Failed to flee!\n",
+      "Algathor the Dragon strikes, dealing 30 damage!\n",
+      "\n",
+      "Algathor the Dragon HP: 150\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 70/130\n",
+      "Strength: 95\n",
+      "Inventory: Blaze Arrow, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "John flees successfully!\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 70/130\n",
+      "Strength: 95\n",
+      "Inventory: Blaze Arrow, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "What next?\n",
+      "1. Continue Journey\n",
+      "2. Manage Inventory\n",
+      "3. Save Game\n",
+      "4. Rest (End Game)\n",
+      "\n",
+      "--- Encounter 5/5 ---\n",
+      "\n",
+      "Exploration of a lifetime\n",
+      "You tread deeper into the treacherous land...\n",
+      "The path is eerily silent...\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 70/130\n",
+      "Strength: 95\n",
+      "Inventory: Blaze Arrow, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "What next?\n",
+      "1. Continue Journey\n",
+      "2. Manage Inventory\n",
+      "3. Save Game\n",
+      "4. Rest (End Game)\n",
+      "\n",
+      "--- Encounter 5/5 ---\n",
+      "\n",
+      "Exploration of a lifetime\n",
+      "You tread deeper into the treacherous land...\n",
+      "\n",
+      "Begin Your Combat Moves!\n",
+      "A Creepy Spooky Scary Skeleton blocks your path!\n",
+      "\n",
+      "Creepy Spooky Scary Skeleton HP: 40\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 70/130\n",
+      "Strength: 95\n",
+      "Inventory: Blaze Arrow, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "Combat Options:\n",
+      "1. Attack\n",
+      "2. Use Item\n",
+      "3. Save Game\n",
+      "4. Flee\n",
+      "John swings their sword, dealing 47 damage!\n",
+      "\n",
+      "\n",
+      "You vanquished the Creepy Spooky Scary Skeleton!\n",
+      "\n",
+      "John has grown stronger!\n",
+      "Health and strength increased!\n",
+      "\n",
+      "Character: John (Knight)\n",
+      "Health: 140/140\n",
+      "Strength: 100\n",
+      "Inventory: Blaze Arrow, Rusty Sword, Frozen Dagger\n",
+      "\n",
+      "What next?\n",
+      "1. Continue Journey\n",
+      "2. Manage Inventory\n",
+      "3. Save Game\n",
+      "4. Rest (End Game)\n",
+      "Victory! John survived 5 encounters!\n",
+      "A true legend is born!\n",
+      "Game saved to save_game.json\n",
+      "Legend’s End\n"
+     ]
+    }
+   ],
+"source": [
+    "# main_game.py\n",
+    "import sys\n",
+    "from Health_Afflictions import Poison, Healing\n",
+    "from Items import Weapon, Potion\n",
+    "from Save_Load_Game import save_game, load_game\n",
+    "from random import choice, randint\n",
+    "\n",
+     "ENEMY_TYPES = [\n",
+    "    (\"Creepy Spooky Scary Skeleton\", 40, 20, 10),\n",
+    "    (\"The Giant Ogre\", 80, 40, 20),\n",
+    "    (\"Algathor the Dragon\", 150, 60, 30)\n",
+    "]\n",
+    "\n",
+    "CHARACTER_CLASSES = [\"Mage\", \"Assassin\", \"Knight\", \"Archer\"]\n",
+    "STARTING_ITEMS = [Weapon(\"Rusty Sword\", 10).name, Potion(\"Health Potion\", 20).name] FrozenDagger(\""Ice Fang", 15, 5)\n",
+    "\n",
+    "# Define Character class and subclasses\n",
+    "base_stats = {\n",
+    "    \"Mage\": {\"health\": 60, \"max_health\": 60, \"strength\": 20},\n",
+    "    \"Assassin\": {\"health\": 70, \"max_health\": 70, \"strength\": 50},\n",
+    "    \"Knight\": {\"health\": 100, \"max_health\": 100, \"strength\": 80},\n",
+    "    \"Archer\": {\"health\": 80, \"max_health\": 80, \"strength\": 60}\n",
+    "}\n",
+    "\n",
+    "class Character(object):\n",
+    "    def __init__(self, name, class_type):\n",
+    "        if class_type not in CHARACTER_CLASSES:\n",
+    "            raise ValueError(f\"Invalid class type. Choose from {CHARACTER_CLASSES}\")\n",
+    "        self.name = name\n",
+    "        self.class_type = class_type\n",
+    "        self.stats = base_stats[class_type].copy()\n",
+    "        self.inventory = []\n",
+
+#character Class
+class character 
+ def __init__(self, name, char_class):
+        self.name = name
+        self.char_class = char_class
+        self.health = 100
+        self.inventory = ["Rusty Sword", "Health Potion"]
+        self.strength = self.assign_strength()
+
+    def assign_strength(self):
+        class_stats = {
+            "Mage": 50,
+            "Assassin": 60,
+            "Knight": 80,
+            "Archer": 70
+        }
+        return class_stats.get(self.char_class, 50)
+
+    def display_stats(self):
+        print(f"\nCharacter: {self.name} ({self.char_class})")
+        print(f"Health: {self.health}/100")
+        print(f"Strength: {self.strength}")
+        print(f"Inventory: {', '.join(self.inventory)}\n")
+
+# Encounter Class
+class Encounter:
+    def __init__(self, number):
+        self.number = number
+        self.description = [
+            "You tread deeper into the treacherous land...",
+            "The path is eerily silent...",
+            "A shadow moves in the distance...",
+            "You hear a faint growl nearby...",
+            "You discover a hidden chest!"
+        ]
+
+    def start(self):
+        print(f"\n--- Encounter {self.number}/5 ---\n")
+        print(random.choice(self.description))
+
+# Game Logic
+def character_creation():
+    name = input("Enter your character's name: ")
+    print("\nChoose your class:\nMage - Wields powerful magic, fragile\nAssassin - Stealthy and quick\nKnight - Strong and durable\nArcher - Fires arrows with precision\n")
+    
+    while True:
+        char_class = input("Enter class: ").capitalize()
+        if char_class in ["Mage", "Assassin", "Knight", "Archer"]:
+            break
+        print("Invalid class. Choose from Mage, Assassin, Knight, or Archer.")
+
+    return Character(name, char_class)
+
+def start_game():
+    print("\nOff to a land, filled with strife. All alone, but one with life...")
+    print("You were told to become a savior, and yet no one will know your full story.")
+    print("You have chosen a treacherous path... Mother will be so proud of you...\n")
+
+    player = character_creation()
+    print(f"\nHello {player.name}, you sure are a brave one.\n")
+    
+    player.display_stats()
+
+    print("\nThe journey begins...\n")
+    
+    for i in range(1, 6):
+        encounter = Encounter(i)
+        encounter.start()
+
+if __name__ == "__main__":
+    start_game()
+class Item:
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+
+    def __str__(self):
+        return f"{self.name}: {self.description}"
+
+class Weapon(Item):
+    def __init__(self, name, damage):
+        if damage < 0:
+            raise ValueError("Damage value must be non-negative.")
+        super().__init__(name, f"A {name} dealing {damage} damage")
+        self.damage = damage
+
+class Potion(Item):
+    def __init__(self, name, heal_amount):
+        if heal_amount < 0:
+            raise ValueError("Heal amount must be non-negative.")
+        super().__init__(name, f"A {name} that heals {heal_amount} HP")
+        self.heal_amount = heal_amount
+
+    def use(self, character):
+        current_health = character.stats.get("health", 0)
+        max_health = character.stats.get("max_health", 0)
+
+        if current_health < max_health:
+            healed = min(self.heal_amount, max_health - current_health)
+            character.stats["health"] += healed
+            print(f"{character.name} used {self.name}, healing {healed} HP!")
+            return True
+        print(f"{character.name} is already at full health!")
+        return False
+
+class Character:
+    def __init__(self, name, health, max_health):
+        self.name = name
+        self.stats = {"health": health, "max_health": max_health}
+        self.inventory = []
+
+    def add_item(self, item):
+        self.inventory.append(item)
+        print(f"{self.name} acquired {item.name}!")
+
+    def show_inventory(self):
+        if not self.inventory:
+            print(f"{self.name}'s inventory is empty.")
+        else:
+            print(f"{self.name}'s Inventory:")
+            for item in self.inventory:
+                print(f"- {item}")
+
+# Example Usage
+player = Character("Hero", 50, 100)
+sword = Weapon("Sword", 15)
+healing_potion = Potion("Healing Potion", 30)
+
+player.add_item(sword)
+player.add_item(healing_potion)
+player.show_inventory()
+healing_potion.use(player)
+player.show_inventory()
+import json
+import random
+
+# Character setup
+class Character:
+    def __init__(self, name, char_class):
+        self.name = name
+        self.char_class = char_class
+        self.health = 100
+        self.strength = 80 if char_class == "Knight" else 60
+        self.inventory = ["Blaze Arrow, Health Potion, Rusty Sword, Frozen Dagger"]
+        self.level = 1
+        self.xp = 0
+
+    def attack(self, enemy):
+        damage = random.randint(self.strength // 2, self.strength)
+        if random.random() < 0.2:  # 20% chance for a critical hit
+            damage *= 1.5
+            print(f"Critical hit! {self.name} deals {int(damage)} damage!")
+        else:
+            print(f"{self.name} swings their sword, dealing {int(damage)} damage!")
+        enemy.health -= int(damage)
+
+    def level_up(self):
+        if self.xp >= 100:
+            self.level += 1
+            self.health += 10
+            self.strength += 5
+            self.xp = 0
+            print(f"{self.name} leveled up! Health and Strength increased!")
+
+    def use_item(self, item):
+        if item == "Health Potion" and item in self.inventory:
+            self.health += 30
+            print(f"{self.name} used a Health Potion and recovered 30 HP!")
+            self.inventory.remove(item)
+        else:
+            print("Invalid item or not in inventory!")
+
+# Enemy setup
+class Enemy:
+    def __init__(self, name, health, strength):
+        self.name = name
+        self.health = health
+        self.strength = strength
+
+    def attack(self, player):
+        damage = random.randint(self.strength // 2, self.strength)
+        print(f"{self.name} strikes, dealing {damage} damage!")
+        player.health -= damage
+
+# Game functions
+def save_game(player):
+    with open("save.json", "w") as f:
+        json.dump(player.__dict__, f)
+    print("Game saved!")
+
+def load_game():
+    try:
+        with open("save.json", "r") as f:
+            data = json.load(f)
+            player = Character(data["name"], data["char_class"])
+            player.__dict__.update(data)
+            return player
+    except FileNotFoundError:
+        print("No saved game found.")
+        return None
+
+def combat(player, enemy):
+    while player.health > 0 and enemy.health > 0:
+        print(f"\n{player.name} HP: {player.health}, {enemy.name} HP: {enemy.health}")
+        action = input("1. Attack  2. Use Item  3. Flee\n")
+        if action == "1":
+            player.attack(enemy)
+            if enemy.health > 0:
+                enemy.attack(player)
+        elif action == "2":
+            player.use_item("Health Potion")
+        elif action == "3":
+            print("You fled from battle!")
+            return
+    if player.health > 0:
+        print(f"You vanquished the {enemy.name}!")
+        player.xp += 50
+        player.level_up()
+    else:
+        print("You have been defeated...")
+
+# Game start
+player = Character("John", "Knight")
+enemy = Enemy("Giant Ogre", 80, 20)
+combat(player, enemy)
+save_game(player)
+import json
+import random
+
+# Character setup
+class Character:
+    def __init__(self, name, char_class):
+        self.name = name
+        self.char_class = char_class
+        self.health = 100
+        self.strength = 80 if char_class == "Knight" else 60
+        self.inventory = ["Rusty Sword", "Health Potion"]
+        self.level = 1
+        self.xp = 0
+        self.special_abilities = self.get_special_abilities()
+
+    def get_special_abilities(self):
+        abilities = {
+            "Knight": ["Shield Block", "Power Strike"],
+            "Mage": ["Fireball", "Magic Shield"],
+            "Assassin": ["Backstab", "Smoke Bomb"],
+            "Archer": ["Piercing Shot", "Evasive Roll"]
+        }
+        return abilities.get(self.char_class, [])
+
+    def use_special_ability(self, ability, enemy):
+        if ability == "Shield Block":
+            print(f"{self.name} uses Shield Block! Reduces next attack damage by 50%.")
+        elif ability == "Power Strike":
+            damage = self.strength * 1.5
+            print(f"{self.name} uses Power Strike! Deals {int(damage)} damage!")
+            enemy.health -= int(damage)
+        elif ability == "Fireball":
+            damage = 50
+            print(f"{self.name} casts Fireball! Deals {damage} damage!")
+            enemy.health -= damage
+        elif ability == "Magic Shield":
+            print(f"{self.name} casts Magic Shield! Negates the next attack.")
+        elif ability == "Backstab":
+            damage = self.strength * 2
+            print(f"{self.name} performs Backstab! Deals {int(damage)} damage!")
+            enemy.health -= int(damage)
+        elif ability == "Smoke Bomb":
+            print(f"{self.name} uses Smoke Bomb! Escapes the battle safely.")
+        elif ability == "Piercing Shot":
+            damage = 45
+            print(f"{self.name} fires a Piercing Shot! Deals {damage} damage!")
+            enemy.health -= damage
+        elif ability == "Evasive Roll":
+            print(f"{self.name} performs Evasive Roll! Avoids the next attack.")
+        else:
+            print("Invalid ability!")
+
+    def attack(self, enemy):
+        damage = random.randint(self.strength // 2, self.strength)
+        if random.random() < 0.2:  # 20% chance for a critical hit
+            damage *= 1.5
+            print(f"Critical hit! {self.name} deals {int(damage)} damage!")
+        else:
+            print(f"{self.name} swings their sword, dealing {int(damage)} damage!")
+        enemy.health -= int(damage)
+
+    def level_up(self):
+        if self.xp >= 100:
+            self.level += 1
+            self.health += 10
+            self.strength += 5
+            self.xp = 0
+            print(f"{self.name} leveled up! Health and Strength increased!")
+
+    def use_item(self, item):
+        if item == "Health Potion" and item in self.inventory:
+            self.health += 30
+            print(f"{self.name} used a Health Potion and recovered 30 HP!")
+            self.inventory.remove(item)
+        else:
+            print("Invalid item or not in inventory!")
+
+# Enemy setup
+class Enemy:
+    def __init__(self, name, health, strength):
+        self.name = name
+        self.health = health
+        self.strength = strength
+
+    def attack(self, player):
+        damage = random.randint(self.strength // 2, self.strength)
+        print(f"{self.name} strikes, dealing {damage} damage!")
+        player.health -= damage
+
+# Game functions
+def save_game(player):
+    with open("save.json", "w") as f:
+        json.dump(player.__dict__, f)
+    print("Game saved!")
+
+def load_game():
+    try:
+        with open("save.json", "r") as f:
+            data = json.load(f)
+            player = Character(data["name"], data["char_class"])
+            player.__dict__.update(data)
+            return player
+    except FileNotFoundError:
+        print("No saved game found.")
+        return None
+
+def combat(player, enemy):
+    while player.health > 0 and enemy.health > 0:
+        print(f"\n{player.name} HP: {player.health}, {enemy.name} HP: {enemy.health}")
+        action = input("1. Attack  2. Use Item  3. Use Special Ability  4. Flee\n")
+        if action == "1":
+            player.attack(enemy)
+            if enemy.health > 0:
+                enemy.attack(player)
+        elif action == "2":
+            player.use_item("Health Potion")
+        elif action == "3":
+            print("Choose an ability:")
+            for i, ability in enumerate(player.special_abilities, 1):
+                print(f"{i}. {ability}")
+            choice = int(input()) - 1
+            if 0 <= choice < len(player.special_abilities):
+                player.use_special_ability(player.special_abilities[choice], enemy)
+        elif action == "4":
+            print("You fled from battle!")
+            return
+    if player.health > 0:
+        print(f"You vanquished the {enemy.name}!")
+        player.xp += 50
+        player.level_up()
+    else:
+        print("You have been defeated...")
+
+# Game start
+player = Character("John", "Knight")
+enemy = Enemy("Giant Ogre", 80, 20)
+combat(player, enemy)
+save_game(player)
+import json
+import random
+
+class Character:
+    def __init__(self, name, char_class):
+        self.name = name
+        self.char_class = char_class
+        self.health = 100
+        self.strength = self.assign_strength()
+        self.inventory = ["Rusty Sword", "Health Potion"]
+        self.level = 1
+        self.xp = 0
+        self.special_abilities = self.get_special_abilities()
+
+    def assign_strength(self):
+        class_stats = {"Mage": 50, "Assassin": 60, "Knight": 80, "Archer": 70}
+        return class_stats.get(self.char_class, 50)
+
+    def get_special_abilities(self):
+        abilities = {
+            "Knight": ["Shield Block", "Power Strike"],
+            "Mage": ["Fireball", "Magic Shield"],
+            "Assassin": ["Backstab", "Smoke Bomb"],
+            "Archer": ["Piercing Shot", "Evasive Roll"]
+        }
+        return abilities.get(self.char_class, [])
+
+    def attack(self, enemy):
+        damage = random.randint(self.strength // 2, self.strength)
+        if random.random() < 0.2:  
+            damage *= 1.5
+            print(f"Critical hit! {self.name} deals {int(damage)} damage!")
+        else:
+            print(f"{self.name} swings their weapon, dealing {int(damage)} damage!")
+        enemy.health -= int(damage)
+
+    def use_special_ability(self, ability, enemy):
+        abilities = {
+            "Power Strike": lambda: self.power_strike(enemy),
+            "Fireball": lambda: self.cast_fireball(enemy),
+            "Backstab": lambda: self.backstab(enemy),
+            "Piercing Shot": lambda: self.piercing_shot(enemy),
+        }
+        if ability in abilities:
+            abilities[ability]()
+        else:
+            print("Invalid ability!")
+
+    def power_strike(self, enemy):
+        damage = self.strength * 1.5
+        print(f"{self.name} uses Power Strike! Deals {int(damage)} damage!")
+        enemy.health -= int(damage)
+
+    def cast_fireball(self, enemy):
+        damage = 50
+        print(f"{self.name} casts Fireball! Deals {damage} damage!")
+        enemy.health -= damage
+
+    def backstab(self, enemy):
+        damage = self.strength * 2
+        print(f"{self.name} performs Backstab! Deals {int(damage)} damage!")
+        enemy.health -= int(damage)
+
+    def piercing_shot(self, enemy):
+        damage = 45
+        print(f"{self.name} fires a Piercing Shot! Deals {damage} damage!")
+        enemy.health -= damage
+
+    def level_up(self):
+        if self.xp >= 100:
+            self.level += 1
+            self.health += 10
+            self.strength += 5
+            self.xp = 0
+            print(f"{self.name} leveled up! Health and Strength increased!")
+
+    def use_item(self, item):
+        if item == "Health Potion" and item in self.inventory:
+            self.health += 30
+            print(f"{self.name} used a Health Potion and recovered 30 HP!")
+            self.inventory.remove(item)
+        else:
+            print("Invalid item or not in inventory!")
+
+    def save_game(self):
+        with open("save.json", "w") as f:
+            json.dump(self.__dict__, f)
+        print("Game saved!")
+
+    @staticmethod
+    def load_game():
+        try:
+            with open("save.json", "r") as f:
+                data = json.load(f)
+                player = Character(data["name"], data["char_class"])
+                player.__dict__.update(data)
+                return player
+        except FileNotFoundError:
+            print("No saved game found.")
+            return None
+    with open("save.json", "w") as f:
+        json.dump(player.__dict__, f)
+    print("Game saved!")
+
+class Encounter:
+    def __init__(self, number):
+        self.number = number
+        self.description = [
+            "You tread deeper into the treacherous land...",
+            "The path is eerily silent...",
+            "A shadow moves in the distance...",
+            "You hear a faint growl nearby...",
+            "You discover a hidden chest!"
+        ]
+
+    def start(self):
+        print(f"\n--- Encounter {self.number}/5 ---\n")
+        print(random.choice(self.description))
+
+def load_game():
+    try:
+        with open("save.json", "r") as f:
+            data = json.load(f)
+            player = Character(data["name"], data["char_class"])
+            player.__dict__.update(data)
+            return player
+    except FileNotFoundError:
+        print("No saved game found.")
+        return None
+
+def combat(player, enemy):
+    while player.health > 0 and enemy.health > 0:
+        print(f"\n{player.name} HP: {player.health}, {enemy.name} HP: {enemy.health}")
+        action = input("1. Attack  2. Use Special Ability  3. Use Item  4. Flee\n")
+
+        if action == "1":
+            player.attack(enemy)
+            if enemy.health > 0:
+                enemy.attack(player)
+        elif action == "2":
+            print(f"Available Abilities: {', '.join(player.special_abilities)}")
+            ability = input("Choose an ability: ")
+            player.use_special_ability(ability, enemy)
+        elif action == "3":
+            player.use_item("Health Potion")
+        elif action == "4":
+            print("You fled from battle!")
+            return
+
+    if player.health > 0:
+        print(f"You vanquished the {enemy.name}!")
+        player.xp += 50
+        player.level_up()
+    else:
+        print("You have been defeated...")
+
+# Game start
+player = Character("John", "Knight")
+enemy = Enemy("Giant Ogre", 80, 20)
+combat(player, enemy)
+save_game(player)
