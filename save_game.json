@@ -1,0 +1,13 @@
+{
+    "name": "John",
+    "class_type": "Knight",
+    "stats": {
+        "health": 95,
+        "max_health": 110,
+        "strength": 85
+    },
+    "inventory": [
+        "Rusty Sword",
+        "Health Potion"
+    ]
+}
