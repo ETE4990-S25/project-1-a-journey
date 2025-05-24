@@ -1,0 +1,603 @@
+# main_game.py
+# A text-based RPG with exploration, combat, quests, puzzles, and status effects
+import sys
+from Health_Afflictions import Poison, Healing
+from Items import Weapon, Potion
+from Save_Load_Game import save_game, load_game
+from random import choice, randint
+
+# Enemy definitions with unique abilities
+ENEMY_TYPES = [
+    ("Creepy Spooky Scary Skeleton", 40, 20, 10, {"poison_chance": 15, "curse_chance": 10}),
+    ("The Giant Ogre", 80, 40, 20, {"stun_chance": 10, "curse_chance": 5}),
+    ("Algathor the Dragon", 150, 60, 30, {"fire_damage": 10, "curse_chance": 15})
+]
+
+# Available character classes
+CHARACTER_CLASSES = ["Mage", "Assassin", "Knight", "Archer"]
+
+# Starting items for new players
+STARTING_ITEMS = [Weapon("Rusty Sword", 10).name, Potion("Health Potion", 20).name]
+
+# Skills with levels and cooldowns
+SKILLS = {
+    "Mage": {"Fireball I": {"damage": 15, "xp_cost": 50, "cooldown": 2}, "Fireball II": {"damage": 25, "xp_cost": 100, "cooldown": 3}},
+    "Assassin": {"Backstab I": {"damage": 20, "xp_cost": 50, "cooldown": 2}, "Backstab II": {"damage": 30, "xp_cost": 100, "cooldown": 3}},
+    "Knight": {"Fortify I": {"block_boost": 10, "xp_cost": 50, "cooldown": 2}, "Fortify II": {"block_boost": 15, "xp_cost": 100, "cooldown": 3}},
+    "Archer": {"Piercing Shot I": {"damage": 15, "xp_cost": 50, "cooldown": 2}, "Piercing Shot II": {"damage": 25, "xp_cost": 100, "cooldown": 3}}
+}
+
+# Base stats for each class
+base_stats = {
+    "Mage": {"health": 60, "max_health": 60, "strength": 20},
+    "Assassin": {"health": 70, "max_health": 70, "strength": 50},
+    "Knight": {"health": 100, "max_health": 100, "strength": 80},
+    "Archer": {"health": 80, "max_health": 80, "strength": 60}
+}
+
+# Character base class
+class Character(object):
+    def __init__(self, name, class_type):
+        if class_type not in CHARACTER_CLASSES:
+            raise ValueError(f"Invalid class type. Choose from {CHARACTER_CLASSES}")
+        self.name = name
+        self.class_type = class_type
+        self.stats = base_stats[class_type].copy()
+        self.inventory = []
+        self.xp = 0
+        self.skills = []
+        self.quests = []
+        self.companion = None
+        self.combo = 0  # Tracks consecutive attacks
+        self.skill_cooldowns = {}  # Tracks skill cooldowns
+        self.status_effects = {"poison": 0, "curse": 0}  # Tracks status durations
+
+    # Display character stats
+    def display_stats(self):
+        print(f"\nCharacter: {self.name} ({self.class_type})")
+        print(f"Health: {self.stats['health']}/{self.stats['max_health']}")
+        print(f"Strength: {self.stats['strength']}")
+        print(f"XP: {self.xp}")
+        print(f"Skills: {', '.join(self.skills) if self.skills else 'None'}")
+        print(f"Inventory: {', '.join(self.inventory) if self.inventory else 'Empty'}")
+        if self.companion:
+            print(f"Companion: {self.companion['name']} (Health: {self.companion['health']})")
+        print(f"Combo Streak: {self.combo}")
+        if self.status_effects["poison"] > 0:
+            print(f"Poisoned: {self.status_effects['poison']} turns left")
+        if self.status_effects["curse"] > 0:
+            print(f"Cursed: {self.status_effects['curse']} turns left")
+
+# Mage subclass
+class Mage(Character):
+    def __init__(self, name):
+        super().__init__(name, "Mage")
+
+    def cast_spell(self, damage):
+        spell_damage = self.stats["strength"] + 10
+        print(f"{self.name} casts a spell, dealing {spell_damage} damage!")
+        return spell_damage
+
+# Assassin subclass
+class Assassin(Character):
+    def __init__(self, name):
+        super().__init__(name, "Assassin")
+
+    def stealth_attack(self):
+        damage = self.stats["strength"] // 2
+        print(f"{self.name} performs a stealth attack, dealing {damage} damage!")
+        return damage
+
+# Knight subclass
+class Knight(Character):
+    def __init__(self, name):
+        super().__init__(name, "Knight")
+
+    def shield_block(self):
+        block_amount = self.stats["strength"] // 3
+        print(f"{self.name} raises their shield, blocking {block_amount} damage!")
+        return block_amount
+
+    def taunt(self):
+        print(f"{self.name} taunts the enemy, drawing attention!")
+        return True
+
+# Archer subclass
+class Archer(Character):
+    def __init__(self, name):
+        super().__init__(name, "Archer")
+
+    def ranged_shot(self):
+        damage = self.stats["strength"] // 2
+        print(f"{self.name} fires an arrow, dealing {damage} damage!")
+        return damage
+
+# Create character instance
+def create_character(name, class_type):
+    class_map = {"Mage": Mage, "Assassin": Assassin, "Knight": Knight, "Archer": Archer}
+    if class_type not in class_map:
+        raise ValueError(f"Invalid class type. Choose from {CHARACTER_CLASSES}")
+    return class_map[class_type](name)
+
+# Handle game over
+def game_over():
+    print("\n=== Game Over ===")
+    return restart_game()
+
+# Prompt to restart
+def restart_game():
+    while True:
+        restart = input("Would you like to restart? (Yes/No): ").lower().strip()
+        if restart == "yes":
+            print("\nRestarting game...\n")
+            return True
+        elif restart == "no":
+            print("Goodbye!")
+            return False
+        else:
+            print("Please enter 'Yes' or 'No'")
+
+# Game introduction
+def start_game():
+    print("Off to a land, filled with strife. All alone, but one with life.")
+    print("You were told to become a savior, and yet no one will know your story.")
+    start_input = input("A story of One's Path of Legend! Type 'Start Game' to start!: ").strip()
+    if start_input == "Start Game":
+        print("You have chosen a treacherous path...")
+        return True
+    else:
+        print("Instructions ignored! Bigfoot slaps your head off.")
+        return game_over()
+
+# Create player
+def create_player():
+    print("\nCharacter Creation")
+    load = input("Load saved game? (Yes/No): ").lower().strip()
+    if load == "yes":
+        player = load_game()
+        if player:
+            print(f"Welcome back, {player.name}!")
+            player.display_stats()
+            return player
+    name = input("Character Name: ").strip()
+    print(f"Hello {name}, a brave soul.")
+    print("Choose your class:")
+    print("Mage - Wields powerful magic, fragile")
+    print("Assassin - Stealthy and quick")
+    print("Knight - Strong and durable")
+    print("Archer - Precise and ranged")
+    while True:
+        class_type = input("Class: ").strip().capitalize()
+        if class_type not in CHARACTER_CLASSES:
+            print(f"Invalid class. Choose from {CHARACTER_CLASSES}")
+        else:
+            player = create_character(name, class_type)
+            break
+    print("You set out, vigilant and ready.")
+    for item in STARTING_ITEMS:
+        player.inventory.append(item)
+    player.display_stats()
+    return player
+
+# Level up character
+def level_up(player):
+    player.stats["max_health"] += 10
+    player.stats["health"] = player.stats["max_health"]
+    player.stats["strength"] += 5
+    print(f"\n{player.name} has grown stronger!")
+    print("Health and strength increased!")
+    check_skills(player)
+
+# Check for new skills
+def check_skills(player):
+    for skill, data in SKILLS[player.class_type].items():
+        if skill not in player.skills and player.xp >= data["xp_cost"]:
+            player.skills.append(skill)
+            player.skill_cooldowns[skill] = 0
+            print(f"Learned {skill}!")
+
+# Display skill details
+def display_skills(player):
+    print(f"\n{player.name}'s Skills:")
+    if not player.skills:
+        print("No skills learned.")
+        return
+    for skill in player.skills:
+        data = SKILLS[player.class_type][skill]
+        cooldown = player.skill_cooldowns.get(skill, 0)
+        if "damage" in data:
+            print(f"{skill}: Deals {data['damage']} damage (Cooldown: {cooldown})")
+        elif "block_boost" in data:
+            print(f"{skill}: Boosts block by {data['block_boost']} (Cooldown: {cooldown})")
+
+# Manage inventory
+def manage_inventory(player):
+    print("\nInventory Management")
+    if not player.inventory:
+        print("Your inventory is empty.")
+        return
+    player.display_stats()
+    action = input("Drop an item? (Yes/No): ").lower().strip()
+    if action == "yes":
+        print(f"Inventory: {player.inventory}")
+        item = input("Which item to drop? ").strip()
+        if item in player.inventory:
+            player.inventory.remove(item)
+            print(f"Dropped {item}.")
+        else:
+            print("Item not found!")
+
+# Update quest progress
+def update_quests(player, event_type=None, target=None):
+    for quest in player.quests[:]:
+        if quest["type"] == event_type and target == quest["target"]:
+            quest["progress"] += 1
+            print(f"Quest: {quest['description']} ({quest['progress']}/{quest['goal']})")
+            if quest["progress"] >= quest["goal"]:
+                print(f"Completed: {quest['description']}!")
+                player.xp += quest["xp_reward"]
+                if quest["item_reward"]:
+                    player.inventory.append(quest["item_reward"])
+                    print(f"Received {quest['item_reward']}!")
+                player.quests.remove(quest)
+
+# Combat system
+def combat(player, enemy_name, enemy_health, enemy_strength, enemy_agility, enemy_abilities):
+    enemy_hp = enemy_health
+    block_amount = 0
+    crit_chance = 10
+    print(f"\nBegin Combat!")
+    print(f"A {enemy_name} blocks your path!")
+    while enemy_hp > 0 and player.stats["health"] > 0:
+        print(f"\n{enemy_name} HP: {enemy_hp}")
+        player.display_stats()
+        print("\nCombat Options:")
+        print("1. Attack")
+        print("2. Use Item")
+        print("3. Use Skill")
+        print("4. Defend")
+        print("5. Save Game")
+        print("6. Flee")
+        if player.class_type == "Knight":
+            print("7. Taunt")
+        try:
+            action = input("Your choice: ").strip()
+        except KeyboardInterrupt:
+            print("Game interrupted.")
+            return game_over()
+
+        damage = 0
+        player.combo = player.combo + 1 if action in ["1", "3"] else 0
+        combo_bonus = player.combo * 2
+        if action == "1":
+            if player.class_type == "Mage":
+                damage = player.cast_spell(0)
+            elif player.class_type == "Assassin":
+                damage = player.stealth_attack()
+            elif player.class_type == "Knight":
+                print("1. Attack  2. Shield Block")
+                try:
+                    sub_action = input("Choose: ").strip()
+                except KeyboardInterrupt:
+                    return game_over()
+                if sub_action == "2":
+                    block_amount = player.shield_block()
+                    player.combo = 0
+                    continue
+                damage = player.stats["strength"] // 2
+                print(f"{player.name} swings their sword, dealing {damage} damage!")
+            elif player.class_type == "Archer":
+                damage = player.ranged_shot()
+            if randint(1, 100) <= crit_chance:
+                damage *= 2
+                print("Critical hit!")
+            damage += combo_bonus
+            if combo_bonus > 0:
+                print(f"Combo bonus: +{combo_bonus} damage!")
+        elif action == "2":
+            if player.inventory:
+                print(f"Inventory: {player.inventory}")
+                item_name = input("Item to use: ").strip()
+                if item_name.lower() in [i.lower() for i in player.inventory]:
+                    actual_item_name = next(i for i in player.inventory if i.lower() == item_name.lower())
+                    if "potion" in actual_item_name.lower():
+                        potion = Potion(actual_item_name, 20)
+                        if potion.use(player):
+                            player.inventory.remove(actual_item_name)
+                    elif "sword" in actual_item_name.lower():
+                        weapon = Weapon(actual_item_name, 10 if "Rusty" in actual_item_name else 15)
+                        damage = weapon.damage + player.stats["strength"] + combo_bonus
+                        print(f"{player.name} uses {actual_item_name}, dealing {damage} damage!")
+                    else:
+                        print("Cannot use that item!")
+                else:
+                    print("Item not found!")
+            else:
+                print("No items in inventory!")
+        elif action == "3":
+            if player.skills:
+                print(f"Skills: {player.skills}")
+                skill = input("Choose skill: ").strip()
+                if skill in player.skills and skill in SKILLS[player.class_type]:
+                    cooldown = player.skill_cooldowns.get(skill, 0)
+                    if cooldown > 0:
+                        print(f"{skill} is on cooldown ({cooldown} turns)!")
+                        continue
+                    skill_data = SKILLS[player.class_type][skill]
+                    if "damage" in skill_data:
+                        damage = skill_data["damage"] + combo_bonus
+                        print(f"{player.name} uses {skill}, dealing {damage} damage!")
+                    elif "block_boost" in skill_data:
+                        block_amount += skill_data["block_boost"]
+                        print(f"{player.name} uses {skill}, boosting block!")
+                    player.skill_cooldowns[skill] = skill_data["cooldown"]
+                else:
+                    print("Invalid skill!")
+            else:
+                print("No skills learned!")
+        elif action == "4":
+            block_amount += 10
+            print(f"{player.name} defends, reducing next damage!")
+            player.combo = 0
+        elif action == "5":
+            save_game(player)
+            print("Game saved.")
+        elif action == "6":
+            if randint(1, 100) <= 30:
+                print(f"{player.name} flees successfully!")
+                return True
+            else:
+                print("Failed to flee!")
+        elif action == "7" and player.class_type == "Knight":
+            player.taunt()
+            # Enemy focuses player, protecting companion
+        else:
+            print("Invalid choice!")
+            continue
+
+        # Update cooldowns and status effects
+        for skill in player.skill_cooldowns:
+            if player.skill_cooldowns[skill] > 0:
+                player.skill_cooldowns[skill] -= 1
+        for effect in player.status_effects:
+            if player.status_effects[effect] > 0:
+                player.status_effects[effect] -= 1
+                if player.status_effects[effect] == 0:
+                    if effect == "curse":
+                        player.stats["strength"] += 5
+                        print("Curse lifted!")
+                    elif effect == "poison":
+                        print("Poison cleared!")
+
+        if damage > 0:
+            if player.companion and action != "7":
+                comp_damage = player.companion["strength"]
+                enemy_hp -= comp_damage
+                print(f"{player.companion['name']} attacks, dealing {comp_damage} damage!")
+            enemy_hp -= damage
+            if enemy_hp <= 0:
+                print(f"\nYou vanquished the {enemy_name}!")
+                player.xp += enemy_agility * 2
+                update_quests(player, "defeat", enemy_name)
+                player.combo = 0
+                if randint(1, 3) == 1:
+                    level_up(player)
+                return True
+
+        if enemy_hp > 0:
+            enemy_damage = enemy_strength // 2
+            if block_amount > 0:
+                enemy_damage = max(0, enemy_damage - block_amount)
+                print(f"Blocked {block_amount} damage!")
+                block_amount = 0
+            target = player if action == "7" else choice([player, player.companion] if player.companion else [player])
+            if target == player:
+                player.stats["health"] -= enemy_damage
+                print(f"{enemy_name} strikes, dealing {enemy_damage} damage!")
+                if "poison_chance" in enemy_abilities and randint(1, 100) <= enemy_abilities["poison_chance"]:
+                    poison = Poison(player.name, player.stats["max_health"], player.stats["health"])
+                    poison.do_damage(5)
+                    player.stats["health"] = poison.health
+                    player.status_effects["poison"] = 2
+                elif "curse_chance" in enemy_abilities and randint(1, 100) <= enemy_abilities["curse_chance"]:
+                    player.status_effects["curse"] = 2
+                    player.stats["strength"] = max(10, player.stats["strength"] - 5)
+                    print(f"{enemy_name} curses you, reducing strength!")
+                elif "stun_chance" in enemy_abilities and randint(1, 100) <= enemy_abilities["stun_chance"]:
+                    print(f"{enemy_name} stuns you!")
+                    continue
+                elif "fire_damage" in enemy_abilities:
+                    player.stats["health"] -= enemy_abilities["fire_damage"]
+                    print(f"{enemy_name} breathes fire, dealing {enemy_abilities['fire_damage']} damage!")
+            elif target == player.companion:
+                comp_damage = enemy_damage // 2
+                player.companion["health"] -= comp_damage
+                print(f"{enemy_name} attacks {player.companion['name']}, dealing {comp_damage} damage!")
+                if player.companion["health"] <= 0:
+                    print(f"{player.companion['name']} has fallen!")
+                    player.companion = None
+            if player.stats["health"] <= 0:
+                print(f"\nThe {enemy_name} has defeated you!")
+                return game_over()
+    return True
+
+# Exploration system
+def explore(player):
+    print("\nExploring the land...")
+    event = randint(1, 8)
+    if event == 1:
+        print("The path is quiet...")
+        return False
+    elif event == 2:
+        enemy = choice(ENEMY_TYPES)
+        return combat(player, *enemy)
+    elif event == 3:
+        print("You find a trap!")
+        damage = randint(5, 15)
+        player.stats["health"] -= damage
+        print(f"Trap deals {damage} damage!")
+        if randint(1, 100) <= 20:
+            poison = Poison(player.name, player.stats["max_health"], player.stats["health"])
+            poison.do_damage(5)
+            player.stats["health"] = poison.health
+            player.status_effects["poison"] = 2
+        if player.stats["health"] <= 0:
+            return game_over()
+        return False
+    elif event == 4:
+        item = choice([Weapon("Iron Sword", 15).name, Potion("Mana Potion", 20).name])
+        player.inventory.append(item)
+        print(f"Found {item} in a chest!")
+        player.xp += 10
+        update_quests(player, "collect", item)
+        return False
+    elif event == 5:
+        print("You find a healing shrine!")
+        healing = Healing(player.name, player.stats["max_health"], player.stats["health"])
+        healing.heal_player(20)
+        player.stats["health"] = healing.health
+        player.xp += 5
+        return False
+    elif event == 6:
+        print("You find a puzzle!")
+        print("Riddle: I speak without a mouth and hear without ears. What am I?")
+        answer = input("Answer: ").strip().lower()
+        if answer == "echo":
+            print("Correct! You gain XP!")
+            player.xp += 20
+        else:
+            print("Wrong! The puzzle resets.")
+        return False
+    elif event == 7:
+        print("You find a camp!")
+        action = input("1. Rest  2. Train  3. Leave: ").strip()
+        if action == "1":
+            healing = Healing(player.name, player.stats["max_health"], player.stats["health"])
+            healing.heal_player(15)
+            player.stats["health"] = healing.health
+        elif action == "2":
+            player.xp += 10
+            print("Training increases XP!")
+        return False
+    elif event == 8:
+        print("You meet a lost traveler!")
+        action = input("1. Help  2. Ignore: ").strip()
+        if action == "1":
+            print("You guide the traveler to safety!")
+            reward = choice([Potion("Health Potion", 20).name, 20])
+            if isinstance(reward, str):
+                player.inventory.append(reward)
+                print(f"Received {reward}!")
+            else:
+                player.xp += reward
+                print(f"Gained {reward} XP!")
+        return False
+
+# Display game state
+def display_game_state(player):
+    print("\n=== Game State ===")
+    player.display_stats()
+    if player.quests:
+        print("Quests:")
+        for q in player.quests:
+            print(f"- {q['description']} ({q['progress']}/{q['goal']})")
+
+# Help menu
+def show_help():
+    print("\n=== Help Menu ===")
+    print("Commands:")
+    print("1. Continue Journey - Explore the world")
+    print("2. Manage Inventory - View or drop items")
+    print("3. Save Game - Save progress")
+    print("4. Rest - End game")
+    print("5. Show Skills - View skill details")
+    print("6. Help - Show this menu")
+    print("Combat Tips:")
+    print("- Use skills for powerful effects")
+    print("- Defend to reduce damage")
+    print("- Build combos with consecutive attacks")
+    print("- Knights can taunt to protect allies")
+    print("Exploration Tips:")
+    print("- Watch for traps and puzzles")
+    print("- Complete quests for rewards")
+    print("- Help travelers for bonuses")
+    print("Classes:")
+    print("Mage - Magic-based, low health")
+    print("Assassin - Stealth attacks, moderate health")
+    print("Knight - High health, strong defense")
+    print("Archer - Ranged attacks, balanced stats")
+    print("Quests:")
+    print("- Defeat: Kill specific enemies")
+    print("- Collect: Find items")
+    print("- Deliver: Bring items to NPCs")
+
+# Main game loop
+def play_game():
+    should_restart = start_game()
+    if should_restart is True:
+        player = create_player()
+        print("\nThe journey begins...")
+        # Initialize a sample quest
+        player.quests.append({
+            "type": "deliver",
+            "description": "Deliver a Mana Potion",
+            "target": "Mana Potion",
+            "goal": 1,
+            "progress": 0,
+            "xp_reward": 20,
+            "item_reward": None
+        })
+        encounters = 0
+        max_encounters = 5
+        while player.stats["health"] > 0 and encounters < max_encounters:
+            print(f"\n--- Encounter {encounters + 1}/{max_encounters} ---")
+            display_game_state(player)
+            is_combat_survived = explore(player)
+            if is_combat_survived is False:
+                pass
+            elif is_combat_survived is True:
+                encounters += 1
+            else:
+                return game_over()
+            print("\nWhat next?")
+            print("1. Continue Journey")
+            print("2. Manage Inventory")
+            print("3. Save Game")
+            print("4. Rest (End Game)")
+            print("5. Show Skills")
+            print("6. Help")
+            try:
+                choice = input("Choice: ").strip()
+            except KeyboardInterrupt:
+                return game_over()
+            if choice == "1":
+                continue
+            elif choice == "2":
+                manage_inventory(player)
+            elif choice == "3":
+                save_game(player)
+            elif choice == "4":
+                save_game(player)
+                print(f"{player.name} rests...")
+                return False
+            elif choice == "5":
+                display_skills(player)
+            elif choice == "6":
+                show_help()
+            else:
+                print("Invalid choice.")
+        if player.stats["health"] > 0:
+            print(f"Victory! {player.name} survived {max_encounters} encounters!")
+            save_game(player)
+        return False
+    return should_restart
+
+# Run the game
+running = True
+while running:
+    restart = play_game()
+    if restart:
+        continue
+    else:
+        running = False
+print("Legend’s End")
